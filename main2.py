@@ -28,8 +28,7 @@ class ColorCanvas(tk.Canvas):
             #多加小圓點
             print("多加小圓點")
             rec_width = self.width  - 2 * self.space 
-            rec_height = self.height - 2 * self.space
-            
+            rec_height = self.height - 2 * self.space            
             cir_width = rec_width / 5
             cir_height = rec_height / 5
             cir_start_x = self.space + cir_width / 2
@@ -42,15 +41,19 @@ class ColorCanvas(tk.Canvas):
 
 
 class Window(tk.Tk):
+    selected_convas = None
     @classmethod
     def get_select_convas(cls):
         return cls.selected_convas
 
     @classmethod
-    def set_select_convas(cls,convas):        
+    def set_select_convas(cls,convas):
+        if cls.selected_convas is not None:
+            cls.selected_convas.state = ColorCanvas.OFF   
         cls.selected_convas = convas
         cls.selected_convas.state = ColorCanvas.ON
-        
+
+
     def __init__(self):
         super().__init__()           
         red = ColorCanvas(self,"red",width=100,height=100)
@@ -65,14 +68,10 @@ class Window(tk.Tk):
         Window.set_select_convas(red)
         select_canvas = Window.get_select_convas()
         print(select_canvas.rec_color)
+        
 
     def mouse_click(self,event):
-        print(event.__dict__)
-        print(event.widget.rec_color)
-        #event.widget.delete()
-        #event.widget.create_rectangle(10,10,60,60,fill='white')
-        #event.widget.create_rectangle(20,20,50,50,fill='red')
-        #event.widget.update()
+        Window.set_select_convas(event.widget)
 
 def main():
     window = Window()
