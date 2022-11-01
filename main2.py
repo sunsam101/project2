@@ -3,7 +3,7 @@ import tkinter as tk
 class Window(tk.Tk):
     def __init__(self):
         super().__init__()  
-        red = tk.Canvas(self,width=70,height=70)
+        red = tk.Canvas(self,width=70,height=70,relief='ridge')
         red.create_rectangle(10,10,60,60,fill="red")
         red.bind('<ButtonRelease-1>',self.mouse_click)
         red.grid(row=0, column=0)
@@ -17,8 +17,11 @@ class Window(tk.Tk):
         blue.grid(row=0, column=2)
      
     def mouse_click(self,event):
-        print(event)
-
+        print(event.__dict__)
+        event.widget.delete()
+        event.widget.delete()
+        event.widget.create_rectangle(10,10,60,60,fill='white')
+        event.widget.create_rectangle(20,20,50,50,fill='red')
 def main():
     window = Window()
     window.title("RGBLED 顏色控制")
